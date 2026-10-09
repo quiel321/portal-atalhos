@@ -17,6 +17,7 @@ export default function Portal({ links, usingBackup, categoryOrder = defaultCate
   const [category, setCategory] = useState('Todas');
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
   const shortcuts = links.filter((link) => link.categoria !== 'Propaganda');
+  const emergencyCategories = new Set(shortcuts.filter(link=>link.url === 'tel:190' || link.origem_key?.startsWith('pm-pdf-')).map(link=>link.categoria));
   const partners = links.filter((link) => link.categoria === 'Propaganda').sort(compareLinks);
   const categories = [...new Set(shortcuts.map((link) => link.categoria))].sort((a, b) => {
     const ai = categoryOrder.indexOf(a), bi = categoryOrder.indexOf(b);
@@ -46,8 +47,9 @@ export default function Portal({ links, usingBackup, categoryOrder = defaultCate
               <div className="category-grid">
                 {categories.map((item) => {
                   const items = filtered.filter((link) => link.categoria === item).sort(compareLinks);
+                  const emergency = item === 'Emergência' || emergencyCategories.has(item);
                   if (!items.length) return null;
-                  return <section key={item} className={`category-card ${item === 'Emergência' ? 'emergency-card' : ''}`}><h2 className="category-heading"><button type="button" className="category-toggle" aria-expanded={isExpanded(item)} aria-controls={`category-links-${categories.indexOf(item)}`} onClick={() => setExpandedCategories((current) => ({ ...current, [item]: !isExpanded(item) }))}><span>{item === 'Emergência' && <Siren size={18} aria-hidden="true" />}{item}</span><span className="category-count">{items.length}</span><ChevronDown size={18} className="category-chevron" aria-hidden="true" /></button></h2><CategoryContent id={`category-links-${categories.indexOf(item)}`} expanded={isExpanded(item)}>{items.map((link) => {
+                  return <section key={item} className={`category-card ${emergency ? 'emergency-card' : ''}`}><h2 className="category-heading"><button type="button" className="category-toggle" aria-expanded={isExpanded(item)} aria-controls={`category-links-${categories.indexOf(item)}`} onClick={() => setExpandedCategories((current) => ({ ...current, [item]: !isExpanded(item) }))}><span>{emergency && <Siren size={18} aria-hidden="true" />}{item}</span><span className="category-count">{items.length}</span><ChevronDown size={18} className="category-chevron" aria-hidden="true" /></button></h2><CategoryContent id={`category-links-${categories.indexOf(item)}`} expanded={isExpanded(item)}>{items.map((link) => {
                     const href = safeUrl(link.url, true);
                     const phone = href?.startsWith('tel:');
                     return <a key={link.id} href={href} target={phone ? undefined : '_blank'} rel={phone ? undefined : 'noopener noreferrer'} className="shortcut" aria-label={`${link.titulo} — ${phone ? 'ligar para ' + formatPhone(link.url) + (link.grupo ? ' · ' + link.grupo : '') : 'abrir em nova aba'}`}>{phone && !link.imagem_url ? <DepartmentIcon title={link.titulo} /> : <PortalImage key={link.imagem_url} src={link.imagem_url} title={link.titulo} />}<span className="shortcut-text"><strong>{link.titulo}</strong><span>{phone ? formatPhone(link.url) + ' · Toque para ligar' : 'Abrir serviço'}</span>{link.grupo && <span className="phone-unit">{link.grupo}</span>}{link.telefone_pendente && <span className="phone-pending">Conferir número</span>}</span>{phone ? <Phone size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}</a>;
