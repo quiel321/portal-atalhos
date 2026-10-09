@@ -29,9 +29,9 @@ async function save(request: Request, editing: boolean) {
   else if (categoria === 'Propaganda' && url.startsWith('tel:')) validationError = 'O anúncio precisa do endereço de um site.';
   if (validationError) return Response.json({ error: validationError }, { status: 400 });
   if (editing && !/^[0-9]+$/.test(String(body.id))) return Response.json({ error: 'Cadastro inválido.' }, { status: 400 });
-  if (body.grupo !== undefined && (typeof body.grupo !== 'string' || body.grupo.length > 150)) return Response.json({ error: 'Use uma unidade ou região de até 150 caracteres.' }, { status: 400 });
+  if (body.grupo !== undefined && body.grupo !== null && (typeof body.grupo !== 'string' || body.grupo.length > 150)) return Response.json({ error: 'Use uma unidade ou região de até 150 caracteres.' }, { status: 400 });
   if (body.telefone_pendente !== undefined && typeof body.telefone_pendente !== 'boolean') return Response.json({ error: 'Estado do telefone inválido.' }, { status: 400 });
-  const values = { titulo, url, categoria, imagem_url, ...(body.grupo !== undefined ? { grupo: body.grupo.trim() } : {}), ...(body.telefone_pendente !== undefined ? { telefone_pendente: body.telefone_pendente } : {}) };
+  const values = { titulo, url, categoria, imagem_url, ...(body.grupo !== undefined ? { grupo: body.grupo === null ? null : body.grupo.trim() } : {}), ...(body.telefone_pendente !== undefined ? { telefone_pendente: body.telefone_pendente } : {}) };
   const query = editing ? auth.supabase.from('atalhos_links').update(values).eq('id', body.id) : auth.supabase.from('atalhos_links').insert(values);
   const { data, error } = await query.select('*').abortSignal(AbortSignal.timeout(10000)).single();
   if (error) return Response.json({ error: 'Não foi possível salvar. Confira as permissões e tente novamente.' }, { status: 400 });
@@ -48,4 +48,22 @@ export async function DELETE(request: Request) {
   if (error) return Response.json({ error: 'Não foi possível excluir este cadastro.' }, { status: 400 });
   if (!data?.length) return Response.json({ error: 'Cadastro não encontrado.' }, { status: 404 });
   return Response.json({ ok: true });
+}
+
+// Moving a link changes only its category, preserving its existing metadata.
+export async function PATCH(request: Request) {
+  const auth = await authorizeAdmin(request);
+  if (auth.response) return auth.response;
+  let body;
+  try { body = await request.json(); } catch { return Response.json({ error: 'Dados inválidos.' }, { status: 400 }); }
+  if (!body || typeof body !== 'object' || Array.isArray(body) || !/^[0-9]+$/.test(String(body.id))) return Response.json({ error: 'Cadastro inválido.' }, { status: 400 });
+  const categoria = typeof body.categoria === 'string' ? body.categoria.trim() : '';
+  if (!categoria || categoria.length > 80 || categoria.toLocaleLowerCase('pt-BR') === 'propaganda') return Response.json({ error: 'Escolha uma categoria de atalhos válida.' }, { status: 400 });
+  const { data: category, error: categoryError } = await auth.supabase.from('portal_categories').select('nome').eq('nome', categoria).abortSignal(AbortSignal.timeout(10000)).maybeSingle();
+  if (categoryError) return Response.json({ error: 'Não foi possível conferir a categoria. Tente novamente.' }, { status: 503 });
+  if (!category) return Response.json({ error: 'Categoria não encontrada.' }, { status: 400 });
+  const { data, error } = await auth.supabase.from('atalhos_links').update({ categoria }).eq('id', body.id).neq('categoria', 'Propaganda').select('*').abortSignal(AbortSignal.timeout(10000)).maybeSingle();
+  if (error) return Response.json({ error: 'Não foi possível mover este atalho. Tente novamente.' }, { status: 400 });
+  if (!data) return Response.json({ error: 'Atalho não encontrado.' }, { status: 404 });
+  return Response.json({ link: data });
 }

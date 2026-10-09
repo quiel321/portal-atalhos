@@ -225,3 +225,10 @@ button { cursor: pointer; }
 .contact-whatsapp > span { position:absolute; right:52px; white-space:nowrap; padding:6px 9px; border-radius:6px; background:#122630; font-size:11px; opacity:0; pointer-events:none; }
 .contact-whatsapp:hover > span, .contact-whatsapp:focus-visible > span { opacity:1; }
 @media (max-width:540px) { .pix-support > .pix-support-copy > .pix-feedback { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; } .portal-footer { padding-bottom:68px; } }
+
+.category-selector { display:flex; align-items:center; gap:10px; margin-top:10px; color:#aebed3; font-size:12px; }
+.category-selector select { width:100%; max-width:340px; min-width:0; border:1px solid #2e3d54; background:#111c2e; color:#d6e2f3; border-radius:8px; padding:9px 10px; font:inherit; }
+.category-editor-heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:16px; }
+.category-editor-heading h3 { margin:0; }
+.category-inline-editor > .admin-card { margin-bottom:20px; background:#101b2c; }
+@media(max-width:540px) { .category-selector { gap:8px; font-size:11px; margin-top:8px; } .category-selector select { padding:8px; } .category-link { gap:8px; } .category-link strong { flex-basis:calc(100% - 88px); } .category-inline-editor > .admin-card { padding:14px; } }
