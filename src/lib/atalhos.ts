@@ -43,3 +43,11 @@ export function formatPhone(url: string) {
   const match = number.match(/^\+55(\d{2})(\d{5})(\d{4})$/);
   return match ? '(' + match[1] + ') ' + match[2] + '-' + match[3] : number;
 }
+
+export function whatsappPhoneUrl(url: string, pending = false) {
+  if (pending || !/^tel:/i.test(url)) return undefined;
+  let digits = url.slice(4).replace(/[\s()+.-]/g,'');
+  if (/^[1-9]\d9\d{8}$/.test(digits)) digits = '55' + digits;
+  if (!/^55[1-9]\d9\d{8}$/.test(digits)) return undefined;
+  return 'https://wa.me/' + digits;
+}
