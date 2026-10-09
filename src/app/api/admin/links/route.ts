@@ -4,7 +4,7 @@ import { normalizeEntryUrl } from '@/lib/atalhos';
 export async function GET(request: Request) {
   const auth = await authorizeAdmin(request);
   if (auth.response) return auth.response;
-  const { data, error } = await auth.supabase.from('atalhos_links').select('id,titulo,url,categoria,imagem_url').order('titulo').abortSignal(AbortSignal.timeout(10000));
+  const { data, error } = await auth.supabase.from('atalhos_links').select('*').order('titulo').abortSignal(AbortSignal.timeout(10000));
   if (error) return Response.json({ error: 'Não foi possível carregar os cadastros.' }, { status: 503 });
   return Response.json({ links: data }, { headers: { 'Cache-Control': 'no-store' } });
 }
@@ -29,9 +29,11 @@ async function save(request: Request, editing: boolean) {
   else if (categoria === 'Propaganda' && url.startsWith('tel:')) validationError = 'O anúncio precisa do endereço de um site.';
   if (validationError) return Response.json({ error: validationError }, { status: 400 });
   if (editing && !/^[0-9]+$/.test(String(body.id))) return Response.json({ error: 'Cadastro inválido.' }, { status: 400 });
-  const values = { titulo, url, categoria, imagem_url };
+  if (body.grupo !== undefined && (typeof body.grupo !== 'string' || body.grupo.length > 150)) return Response.json({ error: 'Use uma unidade ou região de até 150 caracteres.' }, { status: 400 });
+  if (body.telefone_pendente !== undefined && typeof body.telefone_pendente !== 'boolean') return Response.json({ error: 'Estado do telefone inválido.' }, { status: 400 });
+  const values = { titulo, url, categoria, imagem_url, ...(body.grupo !== undefined ? { grupo: body.grupo.trim() } : {}), ...(body.telefone_pendente !== undefined ? { telefone_pendente: body.telefone_pendente } : {}) };
   const query = editing ? auth.supabase.from('atalhos_links').update(values).eq('id', body.id) : auth.supabase.from('atalhos_links').insert(values);
-  const { data, error } = await query.select('id,titulo,url,categoria,imagem_url').abortSignal(AbortSignal.timeout(10000)).single();
+  const { data, error } = await query.select('*').abortSignal(AbortSignal.timeout(10000)).single();
   if (error) return Response.json({ error: 'Não foi possível salvar. Confira as permissões e tente novamente.' }, { status: 400 });
   return Response.json({ link: data }, { status: editing ? 200 : 201 });
 }

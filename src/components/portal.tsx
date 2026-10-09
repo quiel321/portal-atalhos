@@ -2,29 +2,29 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Search, ShieldCheck, MessageCircle, Phone, ArrowRight, X, ChevronDown } from 'lucide-react';
+import { ArrowUpRight, Search, ShieldCheck, MessageCircle, Phone, ArrowRight, X, ChevronDown, Siren } from 'lucide-react';
 import PortalImage from './portal-image';
 import CategoryContent from './category-content';
 import AppInstallPopup from './app-install-popup';
-import { safeUrl, type Atalho } from '@/lib/atalhos';
+import DepartmentIcon from './department-icon';
+import { compareLinks, defaultCategoryOrder, formatPhone, safeUrl, type Atalho } from '@/lib/atalhos';
 
 const whatsapp = `https://wa.me/5565993059729?text=${encodeURIComponent('Olá, tenho interesse em anunciar minha marca no portal Atalhos Grátis!')}`;
 const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
-const categoryOrder = ['Sistemas e Consultas', 'Sistemas Policiais', 'Administrativo', 'Emergência'];
 
-export default function Portal({ links, usingBackup }: { links: Atalho[]; usingBackup: boolean }) {
+export default function Portal({ links, usingBackup, categoryOrder = defaultCategoryOrder }: { links: Atalho[]; usingBackup: boolean; categoryOrder?: string[] }) {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('Todas');
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
   const shortcuts = links.filter((link) => link.categoria !== 'Propaganda');
-  const partners = links.filter((link) => link.categoria === 'Propaganda');
+  const partners = links.filter((link) => link.categoria === 'Propaganda').sort(compareLinks);
   const categories = [...new Set(shortcuts.map((link) => link.categoria))].sort((a, b) => {
     const ai = categoryOrder.indexOf(a), bi = categoryOrder.indexOf(b);
     return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi) || a.localeCompare(b, 'pt-BR');
   });
-  const filtered = shortcuts.filter((link) => (category === 'Todas' || category === link.categoria) && normalize(`${link.titulo} ${link.categoria}`).includes(normalize(search.trim())));
+  const filtered = shortcuts.filter((link) => (category === 'Todas' || category === link.categoria) && (normalize(`${link.titulo} ${link.categoria} ${link.grupo || ''} ${formatPhone(link.url)}`).includes(normalize(search.trim())) || (/^[\d\s()+-]+$/.test(search.trim()) && search.replace(/\D/g,'').length >= 3 && link.url.replace(/\D/g,'').includes(search.replace(/\D/g,'')))));
   const clear = () => { setSearch(''); setCategory('Todas'); setExpandedCategories({}); };
-  const isExpanded = (item: string) => expandedCategories[item] ?? (Boolean(search.trim()) || category !== 'Todas' || item === categories[0]);
+  const isExpanded = (item: string) => expandedCategories[item] ?? (Boolean(search.trim()) || category !== 'Todas');
 
   return (
     <div className="portal-shell">
@@ -45,12 +45,12 @@ export default function Portal({ links, usingBackup }: { links: Atalho[]; usingB
               <div className="directory-toolbar"><p className="result-count" aria-live="polite">{filtered.length} {filtered.length === 1 ? 'atalho encontrado' : 'atalhos encontrados'}</p><div className="accordion-actions"><button type="button" onClick={() => setExpandedCategories(Object.fromEntries(categories.map((item) => [item, true])))}>Expandir tudo</button><span aria-hidden="true">·</span><button type="button" onClick={() => setExpandedCategories(Object.fromEntries(categories.map((item) => [item, false])))}>Recolher tudo</button></div></div>
               <div className="category-grid">
                 {categories.map((item) => {
-                  const items = filtered.filter((link) => link.categoria === item).sort((a, b) => a.titulo.localeCompare(b.titulo, 'pt-BR'));
+                  const items = filtered.filter((link) => link.categoria === item).sort(compareLinks);
                   if (!items.length) return null;
-                  return <section key={item} className={`category-card ${item === 'Emergência' ? 'emergency-card' : ''}`}><h2 className="category-heading"><button type="button" className="category-toggle" aria-expanded={isExpanded(item)} aria-controls={`category-links-${categories.indexOf(item)}`} onClick={() => setExpandedCategories((current) => ({ ...current, [item]: !isExpanded(item) }))}><span>{item}</span><span className="category-count">{items.length}</span><ChevronDown size={18} className="category-chevron" aria-hidden="true" /></button></h2><CategoryContent id={`category-links-${categories.indexOf(item)}`} expanded={isExpanded(item)}>{items.map((link) => {
+                  return <section key={item} className={`category-card ${item === 'Emergência' ? 'emergency-card' : ''}`}><h2 className="category-heading"><button type="button" className="category-toggle" aria-expanded={isExpanded(item)} aria-controls={`category-links-${categories.indexOf(item)}`} onClick={() => setExpandedCategories((current) => ({ ...current, [item]: !isExpanded(item) }))}><span>{item === 'Emergência' && <Siren size={18} aria-hidden="true" />}{item}</span><span className="category-count">{items.length}</span><ChevronDown size={18} className="category-chevron" aria-hidden="true" /></button></h2><CategoryContent id={`category-links-${categories.indexOf(item)}`} expanded={isExpanded(item)}>{items.map((link) => {
                     const href = safeUrl(link.url, true);
                     const phone = href?.startsWith('tel:');
-                    return <a key={link.id} href={href} target={phone ? undefined : '_blank'} rel={phone ? undefined : 'noopener noreferrer'} className="shortcut" aria-label={`${link.titulo} — ${phone ? 'ligar' : 'abrir em nova aba'}`}><PortalImage key={link.imagem_url} src={link.imagem_url} title={link.titulo} /><span className="shortcut-text"><strong>{link.titulo}</strong><span>{phone ? 'Toque para ligar' : 'Abrir serviço'}</span></span>{phone ? <Phone size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}</a>;
+                    return <a key={link.id} href={href} target={phone ? undefined : '_blank'} rel={phone ? undefined : 'noopener noreferrer'} className="shortcut" aria-label={`${link.titulo} — ${phone ? 'ligar para ' + formatPhone(link.url) + (link.grupo ? ' · ' + link.grupo : '') : 'abrir em nova aba'}`}>{phone && !link.imagem_url ? <DepartmentIcon title={link.titulo} /> : <PortalImage key={link.imagem_url} src={link.imagem_url} title={link.titulo} />}<span className="shortcut-text"><strong>{link.titulo}</strong><span>{phone ? formatPhone(link.url) + ' · Toque para ligar' : 'Abrir serviço'}</span>{link.grupo && <span className="phone-unit">{link.grupo}</span>}{link.telefone_pendente && <span className="phone-pending">Conferir número</span>}</span>{phone ? <Phone size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}</a>;
                   })}</CategoryContent></section>;
                 })}
               </div>

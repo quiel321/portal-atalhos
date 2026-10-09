@@ -136,3 +136,23 @@ button { cursor: pointer; }
 .user-entry { flex-wrap: wrap; }.user-entry > div:first-child { min-width: 0; flex: 1 1 200px; }.user-entry strong { overflow-wrap: anywhere; }.user-entry button { width: auto; height: auto; padding: 9px 12px; }.user-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .admin-partner-preview { height: auto; aspect-ratio: 240 / 105; overflow: hidden; }.admin-partner-preview img { padding: 0; object-fit: contain; }
+
+/* Emergência mantém acesso visível sem alongar toda a página com a lista funcional. */
+.emergency-card { border-color: #b8624f; background: linear-gradient(135deg, #38232d, #211f32); box-shadow: inset 3px 0 #e98b75; }
+.emergency-card .category-toggle > span:first-child { display: flex; align-items: center; gap: 8px; }
+.emergency-card .category-content::after { background: linear-gradient(to bottom, #211f321a 0%, #211f32a6 45%, #211f32 100%); }
+.emergency-card .shortcut-list { max-height: 400px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding-right: 4px; }
+.emergency-card .department-icon { background: #4a2d35; color: #ffbca9; }
+.emergency-card .shortcut > svg { color: #eea18a; }
+.shortcut-text > .phone-unit { font-size: 9px; color: #8fa5c2; line-height: 1.5; }
+.shortcut-text > .phone-pending { color: #efc579; }
+.position-controls { display: flex !important; flex-direction: row !important; flex: 0 0 auto !important; align-items: center; gap: 5px !important; }
+.position-controls input { width: 58px; padding: 8px; background: #15263c; color: #e6edf8; border: 1px solid #45607c; border-radius: 7px; font-size: 12px; }
+.order-list { max-height: 520px; overflow-y: auto; overscroll-behavior: contain; padding: 2px; }
+.order-entry { flex-wrap: wrap; }.order-entry > div:first-child { flex: 1 1 200px; }
+@media(max-width:540px) {
+ .partners { gap: 10px; }.partner-card { display: grid; grid-template-columns: 112px minmax(0,1fr); border-radius: 11px; }
+ .partner-image { width: 112px; max-height: 80px; align-self: center; }.partner-caption { padding: 10px; gap: 6px; }.partner-caption strong { font-size: 11px; line-height: 1.5; }.partner-caption > span { font-size: 10px; }
+ .advertise-card { padding: 12px; gap: 6px; }.advertise-card > svg, .advertise-card p { display: none; }.advertise-card strong { font-size: 13px; }.advertise-card span { font-size: 10px; }
+ .order-entry > div:first-child { flex-basis: 100%; }.position-controls { margin-left: auto; }.emergency-card .shortcut-list { max-height: 340px; }
+}

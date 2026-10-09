@@ -2,9 +2,9 @@ import { authorizeAdmin } from '@/lib/admin-auth';
 const validName = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0 && value.trim().length <= 80 && value.trim().toLocaleLowerCase('pt-BR') !== 'propaganda';
 export async function GET(request: Request) {
   const auth = await authorizeAdmin(request); if (auth.response) return auth.response;
-  const { data, error } = await auth.supabase.from('portal_categories').select('nome').neq('nome', 'Propaganda').order('nome').abortSignal(AbortSignal.timeout(8000));
+  const { data, error } = await auth.supabase.from('portal_categories').select('*').neq('nome', 'Propaganda').abortSignal(AbortSignal.timeout(8000));
   if (error) return Response.json({ error: 'Execute o script de categorias no Supabase para ativar este recurso.' }, { status: 503 });
-  return Response.json({ categories: data.map(row => row.nome) }, { headers: { 'Cache-Control': 'no-store' } });
+  return Response.json({ categories: data.sort((a,b)=>(a.posicao ?? 999999)-(b.posicao ?? 999999) || a.nome.localeCompare(b.nome,'pt-BR')).map(row => row.nome), orderAvailable: data.every(row => typeof row.posicao === 'number') }, { headers: { 'Cache-Control': 'no-store' } });
 }
 async function save(request: Request, rename: boolean) {
   const auth = await authorizeAdmin(request); if (auth.response) return auth.response;
