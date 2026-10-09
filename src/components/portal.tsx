@@ -8,6 +8,7 @@ import CategoryContent from './category-content';
 import AppInstallPopup from './app-install-popup';
 import DepartmentIcon from './department-icon';
 import WhatsAppIcon from './whatsapp-icon';
+import PixSupport from './pix-support';
 import { compareLinks, defaultCategoryOrder, formatPhone, safeUrl, whatsappPhoneUrl, type Atalho } from '@/lib/atalhos';
 
 const whatsapp = `https://wa.me/5565993059729?text=${encodeURIComponent('Olá, tenho interesse em anunciar minha marca no portal Atalhos Grátis!')}`;
@@ -31,6 +32,7 @@ export default function Portal({ links, usingBackup, categoryOrder = defaultCate
   return (
     <div className="portal-shell">
       <AppInstallPopup />
+      <a className="contact-whatsapp" href={`https://wa.me/5565993059729?text=${encodeURIComponent('Olá! Gostaria de falar sobre o portal Atalhos Grátis.') }`} target="_blank" rel="noopener noreferrer" aria-label="Fale conosco pelo WhatsApp" title="Fale conosco"><WhatsAppIcon /><span>Fale conosco</span></a>
       <a href="#atalhos" className="skip-link">Ir para os atalhos</a>
       <div className="portal-container">
         <nav className="portal-nav" aria-label="Navegação principal">
@@ -44,6 +46,7 @@ export default function Portal({ links, usingBackup, categoryOrder = defaultCate
               <div className="section-heading"><div><h1 id="directory-title">Seus atalhos</h1></div><span className="total-count">{shortcuts.length} disponíveis</span></div>
               <div className="search-box"><Search size={21} aria-hidden="true" /><label htmlFor="shortcut-search" className="sr-only">Buscar atalho por nome ou categoria</label><input id="shortcut-search" type="search" value={search} onChange={(e) => { setSearch(e.target.value); setExpandedCategories({}); }} placeholder="Buscar um sistema ou serviço…" />{search && <button onClick={() => { setSearch(''); setExpandedCategories({}); }} aria-label="Limpar busca"><X size={18} /></button>}</div>
               <div className="category-filters" aria-label="Filtrar por categoria">{['Todas', ...categories].map((item) => <button key={item} type="button" aria-pressed={category === item} className={category === item ? 'active' : ''} onClick={() => { setCategory(item); setExpandedCategories({}); }}>{item}</button>)}</div>
+              <PixSupport />
               <div className="directory-toolbar"><p className="result-count" aria-live="polite">{filtered.length} {filtered.length === 1 ? 'atalho encontrado' : 'atalhos encontrados'}</p><div className="accordion-actions"><button type="button" onClick={() => setExpandedCategories(Object.fromEntries(categories.map((item) => [item, true])))}>Expandir tudo</button><span aria-hidden="true">·</span><button type="button" onClick={() => setExpandedCategories(Object.fromEntries(categories.map((item) => [item, false])))}>Recolher tudo</button></div></div>
               <div className="category-grid">
                 {categories.map((item) => {
