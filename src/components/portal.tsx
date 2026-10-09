@@ -7,6 +7,7 @@ import PortalImage from './portal-image';
 import CategoryContent from './category-content';
 import AppInstallPopup from './app-install-popup';
 import DepartmentIcon from './department-icon';
+import WhatsAppIcon from './whatsapp-icon';
 import { compareLinks, defaultCategoryOrder, formatPhone, safeUrl, whatsappPhoneUrl, type Atalho } from '@/lib/atalhos';
 
 const whatsapp = `https://wa.me/5565993059729?text=${encodeURIComponent('Olá, tenho interesse em anunciar minha marca no portal Atalhos Grátis!')}`;
@@ -53,7 +54,7 @@ export default function Portal({ links, usingBackup, categoryOrder = defaultCate
                     const href = safeUrl(link.url, true);
                     const phone = href?.startsWith('tel:');
                     const chat = whatsappPhoneUrl(link.url, link.telefone_pendente);
-                    return <div key={link.id} className="shortcut-row"><a href={href} target={phone ? undefined : '_blank'} rel={phone ? undefined : 'noopener noreferrer'} className="shortcut" aria-label={`${link.titulo} — ${phone ? 'ligar para ' + formatPhone(link.url) + (link.grupo ? ' · ' + link.grupo : '') : 'abrir em nova aba'}`}>{phone && !link.imagem_url ? <DepartmentIcon title={link.titulo} /> : <PortalImage key={link.imagem_url} src={link.imagem_url} title={link.titulo} />}<span className="shortcut-text"><strong>{link.titulo}</strong><span>{phone ? formatPhone(link.url) + ' · Toque para ligar' : 'Abrir serviço'}</span>{link.grupo && <span className="phone-unit">{link.grupo}</span>}{link.telefone_pendente && <span className="phone-pending">Conferir número</span>}</span>{phone ? <Phone size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}</a>{chat && <a href={chat} target="_blank" rel="noopener noreferrer" className="phone-whatsapp" aria-label={`WhatsApp de ${link.titulo} · ${formatPhone(link.url)}${link.grupo ? ' · ' + link.grupo : ''}`} title="Conversar no WhatsApp, se o número estiver cadastrado"><MessageCircle size={20} aria-hidden="true" /><span>Whats</span></a>}</div>;
+                    return <div key={link.id} className={`shortcut-row ${chat ? 'has-whatsapp' : ''}`}><a href={href} target={phone ? undefined : '_blank'} rel={phone ? undefined : 'noopener noreferrer'} className="shortcut" aria-label={`${link.titulo} — ${phone ? 'ligar para ' + formatPhone(link.url) + (link.grupo ? ' · ' + link.grupo : '') : 'abrir em nova aba'}`}>{phone && !link.imagem_url ? <DepartmentIcon title={link.titulo} /> : <PortalImage key={link.imagem_url} src={link.imagem_url} title={link.titulo} />}<span className="shortcut-text"><strong>{link.titulo}</strong><span>{phone ? formatPhone(link.url) + ' · Toque para ligar' : 'Abrir serviço'}</span>{link.grupo && <span className="phone-unit">{link.grupo}</span>}{link.telefone_pendente && <span className="phone-pending">Conferir número</span>}</span>{phone ? <Phone size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}</a>{chat && <a href={chat} target="_blank" rel="noopener noreferrer" className="phone-whatsapp" aria-label={`WhatsApp de ${link.titulo} · ${formatPhone(link.url)}${link.grupo ? ' · ' + link.grupo : ''}`} title="Conversar no WhatsApp, se o número estiver cadastrado"><WhatsAppIcon /></a>}</div>;
                   })}</CategoryContent></section>;
                 })}
               </div>

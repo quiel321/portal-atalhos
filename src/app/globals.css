@@ -157,8 +157,8 @@ button { cursor: pointer; }
  .order-entry > div:first-child { flex-basis: 100%; }.position-controls { margin-left: auto; }.emergency-card .shortcut-list { max-height: 340px; }
 }
 
-.shortcut-row { display: flex; gap: 6px; align-items: stretch; }
+.shortcut-row { position: relative; display: flex; align-items: stretch; }
 .shortcut-row > .shortcut { flex: 1; min-width: 0; }
-.phone-whatsapp { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; flex: 0 0 46px; min-height: 44px; color: #9aebbe; background: #103c30; border: 1px solid #28765a; border-radius: 10px; text-decoration: none; }
-.phone-whatsapp span { font-size: 9px; font-weight: 650; }
-.phone-whatsapp:hover { color: #fff; background: #176346; border-color: #50bd87; }
+.shortcut-row.has-whatsapp > .shortcut { padding-right: 48px; }
+.phone-whatsapp { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 36px; height: 44px; color: #74dba0; background: transparent; border: 0; text-decoration: none; border-radius: 5px; }
+.phone-whatsapp:hover { color: #a2f6c6; }
