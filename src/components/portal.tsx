@@ -58,7 +58,7 @@ export default function Portal({ links, usingBackup }: { links: Atalho[]; usingB
             <aside className="partners" aria-labelledby="partners-title"><h2 id="partners-title">Parceiros</h2>{partners.map((partner) => <a key={partner.id} href={safeUrl(partner.url)} target="_blank" rel="noopener noreferrer sponsored" className="partner-card"><PortalImage key={partner.imagem_url} src={partner.imagem_url} title={partner.titulo} banner /><div className="partner-caption"><strong>{partner.titulo}</strong><span>Conhecer <ArrowUpRight size={15} aria-hidden="true" /></span></div></a>)}<a href={whatsapp} target="_blank" rel="noopener noreferrer" className="advertise-card"><MessageCircle size={27} aria-hidden="true" /><strong>Sua marca por aqui</strong><p>Divulgue seu negócio para quem usa o portal todos os dias.</p><span>Fale pelo WhatsApp <ArrowRight size={16} aria-hidden="true" /></span></a></aside>
           </div>
         </main>
-        <footer className="portal-footer"><div><strong>Atalhos<span className="brand-highlight">Grátis</span></strong><p>© {new Date().getFullYear()} · Facilidade para a sua rotina.</p><p>Desenvolvido por Ezequiel Castro — Anal. e Desenvolvedor de Sistemas</p></div><Link href="/novo-link">Cadastrar atalho <ArrowUpRight size={14} aria-hidden="true" /></Link></footer>
+        <footer className="portal-footer"><div><strong>Atalhos<span className="brand-highlight">Grátis</span></strong><p>© {new Date().getFullYear()} · Facilidade para a sua rotina.</p><p>Desenvolvido por Ezequiel Castro — Anal. e Desenvolvedor de Sistemas</p></div><Link href="/admin">Painel administrador <ArrowUpRight size={14} aria-hidden="true" /></Link></footer>
       </div>
     </div>
   );

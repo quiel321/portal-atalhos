@@ -101,3 +101,26 @@ button { cursor: pointer; }
 .accordion-actions button:hover { color: #fff; }
 .partners h2 { margin: 0 0 16px; }
 @media (max-width: 540px) { .category-card { padding: 12px 16px; } .category-grid { gap: 10px; } .section-heading h1 { font-size: 22px; } .portal-columns { padding-top: 18px; } .category-filters { margin-top: 10px; gap: 6px; } .category-filters button { padding: 7px 10px; } }
+.admin-shell { min-height: 100vh; background: #0c1424; color: #e6edf8; padding: 0 24px 48px; }
+.admin-container { max-width: 1160px; margin: auto; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px 0; border-bottom: 1px solid #2b3c55; margin-bottom: 28px; }
+.admin-header > a:last-child { color: #98c7ff; font-size: 13px; text-decoration: none; }
+.admin-login { max-width: 420px; margin: 60px auto; padding: 30px; border: 1px solid #2b3c55; border-radius: 18px; background: #141f32; }
+.admin-login > svg { color: #79b5ff; }
+.admin-login h1, .admin-title h1 { font-size: 26px; font-weight: 700; margin: 14px 0 8px; }
+.admin-login p, .admin-card p, .admin-title p { color: #a6b8ce; font-size: 13px; line-height: 1.7; }
+.admin-login form, .admin-form { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.admin-login label, .admin-form label { font-size: 12px; color: #bed0e7; margin-top: 6px; display: flex; gap: 6px; align-items: center; }
+.admin-login input, .admin-form input { min-width: 0; width: 100%; border: 1px solid #3b4e68; border-radius: 9px; background: #0e192a; color: #e6edf8; padding: 12px; font-size: 14px; }
+.admin-title, .admin-form-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.admin-title h1 { margin-top: 0; }.admin-title p { margin: 0; }
+.admin-primary, .admin-secondary, .admin-danger { display: inline-flex; justify-content: center; align-items: center; gap: 7px; padding: 11px 15px; border-radius: 9px; font-size: 13px; font-weight: 650; }
+.admin-primary { background: #2863a4; border: 1px solid #4c92df; color: white; margin-top: 10px; }.admin-secondary { border: 1px solid #3b4e68; background: #19283d; color: #c5ddf8; }.admin-danger { background: #9a353c; border: 1px solid #c7646b; color: white; }
+.admin-shell button:disabled { opacity: .55; cursor: wait; }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0; }.admin-tabs button { padding: 12px 16px; border: 1px solid #3b4e68; border-radius: 9px; background: #141f32; font-size: 13px; color: #afc2dc; }.admin-tabs button[aria-pressed="true"] { background: #234f80; border-color: #5798da; color: white; }
+.admin-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }.admin-card { padding: 24px; border-radius: 16px; background: #141f32; border: 1px solid #2b3c55; }.admin-card h2 { font-size: 19px; font-weight: 650; margin: 0 0 8px; }
+.admin-help { margin: 0; font-size: 11px !important; }.admin-preview { position: relative; height: 150px; background: #0e192a; border-radius: 10px; }.admin-preview img { padding: 10px; pointer-events: none; }.admin-message { border: 1px solid #3d638b; background: #162c44; padding: 12px 16px; color: #d4e6ff !important; border-radius: 9px; font-size: 13px; }
+.admin-list { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }.admin-entry { display: flex; align-items: center; gap: 10px; padding: 13px; background: #0e192a; border: 1px solid #2b3c55; border-radius: 10px; }.admin-entry > div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; }.admin-entry strong { font-size: 13px; overflow-wrap: anywhere; }.admin-entry span { color: #9bb1ce; font-size: 11px; }.admin-entry button { border: 0; background: #21354e; padding: 9px; border-radius: 7px; color: #b3d6ff; }
+.admin-modal-backdrop { position: fixed; inset: 0; z-index: 100; background: #000a; display: grid; place-items: center; padding: 20px; }.admin-dialog { position: relative; max-width: 440px; width: 100%; }.admin-close { position: absolute; top: 12px; right: 12px; border: 0; background: transparent; color: #a6b8ce; }
+@media (max-width: 760px) { .admin-shell { padding: 0 16px 30px; }.admin-columns { grid-template-columns: 1fr; }.admin-header { gap: 10px; }.admin-header > a:last-child { font-size: 11px; }.admin-login { margin: 28px auto; padding: 24px; }.admin-card { padding: 18px; }.admin-title h1 { font-size: 22px; } }
+
