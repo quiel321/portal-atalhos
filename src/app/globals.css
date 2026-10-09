@@ -258,3 +258,40 @@ button { cursor: pointer; }
 .analytics-legend span:last-child { color:#74dba0; }
 .analytics-method { margin-top:20px; line-height:1.7; }
 @media(max-width:760px) { .analytics-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; } .analytics-metrics article { padding:12px; } .analytics-metrics span { font-size:10px; } .analytics-metrics strong { font-size:24px; } .analytics-actions button { font-size:11px; padding:9px; } .analytics-table-wrap table { font-size:11px; } .analytics-table-wrap th, .analytics-table-wrap td { padding:9px; } }
+.admin-collapse { padding:0; }
+.admin-collapse > summary { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:18px 22px; list-style:none; cursor:pointer; font-size:16px; font-weight:600; color:#e5edf8; }
+.admin-collapse > summary::-webkit-details-marker { display:none; }
+.admin-collapse > summary:hover { color:#8fc2ff; }
+.admin-collapse > summary:focus-visible { outline:2px solid #60a5fa; outline-offset:3px; border-radius:12px; }
+.admin-collapse > summary > svg { flex-shrink:0; color:#91abc9; transition:transform .2s; }
+.admin-collapse[open] > summary > svg { transform:rotate(180deg); }
+.admin-collapse-content { padding:0 22px 22px; }
+.admin-collapse .admin-title { margin-top:0; }
+.admin-collapse .admin-title p { margin-top:0; }
+.analytics-block, .traffic-chart { margin-top:12px; background:#101c2e; }
+.analytics-block > summary, .traffic-chart > summary { font-size:14px; padding:16px 18px; }
+.analytics-block > .admin-collapse-content, .traffic-chart > .admin-collapse-content { padding:0 18px 18px; }
+.analytics-live { display:flex; align-items:center; gap:7px; color:#aacbbd; font-size:11px; margin:12px 0; }
+.analytics-live i { width:6px; height:6px; border-radius:50%; background:#67dfb1; }
+.traffic-note, .traffic-hint { color:#9fb2cb; font-size:11px; line-height:1.6; margin:0 0 12px; }
+.traffic-hint { margin:8px 0 12px; }
+.traffic-legend { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.traffic-legend button { display:flex; align-items:center; gap:7px; background:transparent; border:1px solid #33445c; border-radius:7px; padding:7px 10px; color:#c6d5e9; font-size:11px; }
+.traffic-legend button[aria-pressed="false"] { opacity:.45; }
+.traffic-legend button:disabled { cursor:default; }
+.traffic-legend i, .traffic-selection i { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.traffic-selection { display:flex; flex-wrap:wrap; align-items:center; gap:12px; font-size:11px; padding:10px 12px; background:#15243a; border-radius:8px; margin-bottom:8px; }
+.traffic-selection span { display:flex; align-items:center; gap:5px; color:#b6c7df; }
+.traffic-selection b { color:#e6eef9; }
+.traffic-canvas { width:100%; min-width:0; }
+.traffic-canvas svg { display:block; overflow:visible; }
+.traffic-canvas text { fill:#8ca3c2; font-size:10px; font-family:inherit; }
+.traffic-grid { stroke:#293b55; stroke-dasharray:3 5; }
+.traffic-cursor { stroke:#90a7c6; stroke-dasharray:4 4; opacity:.5; pointer-events:none; }
+.traffic-canvas rect[role="button"] { cursor:crosshair; }
+.traffic-canvas rect[role="button"]:focus-visible { outline:2px solid #8fc2ff; outline-offset:-2px; }
+.traffic-empty { padding:35px 0; color:#9fb2cb; font-size:12px; text-align:center; }
+.traffic-data > summary { color:#9bbde7; font-size:11px; cursor:pointer; padding:5px 0; }
+.traffic-data .analytics-table-wrap { max-height:300px; margin-top:8px; }
+.category-items { margin:14px 0; background:#101b2c; }
+@media(max-width:760px) { .admin-collapse > summary { padding:15px 16px; font-size:14px; } .admin-collapse-content { padding:0 16px 16px; } .traffic-chart > .admin-collapse-content, .analytics-block > .admin-collapse-content { padding:0 10px 12px; } .traffic-selection { gap:8px; padding:9px; font-size:10px; } .traffic-legend { gap:5px; } .traffic-legend button { font-size:10px; padding:6px 7px; } }
