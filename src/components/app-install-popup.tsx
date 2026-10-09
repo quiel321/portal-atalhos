@@ -9,19 +9,24 @@ export default function AppInstallPopup() {
   useEffect(() => {
     if ('serviceWorker' in navigator) void navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(() => {});
     const navigatorWithStandalone = navigator as Navigator & { standalone?: boolean };
-    if (window.matchMedia('(display-mode: standalone)').matches || navigatorWithStandalone.standalone) return;
+    const rememberInstalled = () => { try { localStorage.setItem('atalhos-app-installed', '1'); } catch {} };
+    if (window.matchMedia('(display-mode: standalone)').matches || navigatorWithStandalone.standalone) { rememberInstalled(); return; }
+    try { if (localStorage.getItem('atalhos-app-installed') === '1') return; } catch {}
+    const related = navigator as Navigator & { getInstalledRelatedApps?: () => Promise<unknown[]> };
+    let alreadyInstalled = false;
+    if (related.getInstalledRelatedApps) void related.getInstalledRelatedApps().then(apps => { if (apps.length) { alreadyInstalled = true; rememberInstalled(); setVisible(false); } }).catch(() => {});
     const receivePrompt = (event: Event) => { event.preventDefault(); promptRef.current = event as InstallPrompt; };
-    const installed = () => { setVisible(false); promptRef.current = null; };
+    const installed = () => { alreadyInstalled = true; rememberInstalled(); setVisible(false); promptRef.current = null; };
     window.addEventListener('beforeinstallprompt', receivePrompt);
     window.addEventListener('appinstalled', installed);
     let seen = false;
     try { seen = sessionStorage.getItem('atalhos-install-seen') === '1'; } catch {}
     const show = window.setTimeout(() => {
-      if (seen) return;
+      if (seen || alreadyInstalled) return;
       setVisible(true);
       try { sessionStorage.setItem('atalhos-install-seen', '1'); } catch {}
     }, 350);
-    const hide = window.setTimeout(() => setVisible(false), 5350);
+    const hide = window.setTimeout(() => setVisible(false), 10350);
     return () => { clearTimeout(show); clearTimeout(hide); window.removeEventListener('beforeinstallprompt', receivePrompt); window.removeEventListener('appinstalled', installed); };
   }, []);
   async function install() {

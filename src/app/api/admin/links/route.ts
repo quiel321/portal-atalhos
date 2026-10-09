@@ -1,5 +1,5 @@
 import { authorizeAdmin } from '@/lib/admin-auth';
-import { safeUrl } from '@/lib/atalhos';
+import { normalizeEntryUrl } from '@/lib/atalhos';
 
 export async function GET(request: Request) {
   const auth = await authorizeAdmin(request);
@@ -16,13 +16,18 @@ async function save(request: Request, editing: boolean) {
   try { body = await request.json(); } catch { return Response.json({ error: 'Dados inválidos.' }, { status: 400 }); }
   if (!body || typeof body !== 'object' || Array.isArray(body)) return Response.json({ error: 'Dados inválidos.' }, { status: 400 });
   const titulo = typeof body.titulo === 'string' ? body.titulo.trim() : '';
-  const url = typeof body.url === 'string' ? safeUrl(body.url.trim(), true) : undefined;
+  const url = typeof body.url === 'string' ? normalizeEntryUrl(body.url, true) : undefined;
   const categoria = typeof body.categoria === 'string' ? body.categoria.trim() : '';
   const imagem_url = typeof body.imagem_url === 'string' ? body.imagem_url.trim() : '';
   const imageBase = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/logos-portalatalhos/`;
-  if (!titulo || titulo.length > 150 || !url || !categoria || categoria.length > 80 || (imagem_url && !imagem_url.startsWith(imageBase)) || (categoria === 'Propaganda' && (!imagem_url || url.startsWith('tel:')))) {
-    return Response.json({ error: 'Confira o nome, endereço, categoria e imagem. Anúncios precisam de imagem e endereço do site.' }, { status: 400 });
-  }
+  let validationError = '';
+  if (!titulo || titulo.length > 150) validationError = 'Informe o nome com até 150 caracteres.';
+  else if (!url) validationError = 'Informe um endereço válido, como www.exemplo.com ou https://exemplo.com.';
+  else if (!categoria || categoria.length > 80) validationError = 'Escolha uma categoria válida.';
+  else if (imagem_url && !imagem_url.startsWith(imageBase)) validationError = 'Envie a imagem pelo campo de upload do formulário.';
+  else if (categoria === 'Propaganda' && !imagem_url) validationError = 'Escolha uma imagem para o anúncio parceiro.';
+  else if (categoria === 'Propaganda' && url.startsWith('tel:')) validationError = 'O anúncio precisa do endereço de um site.';
+  if (validationError) return Response.json({ error: validationError }, { status: 400 });
   if (editing && !/^[0-9]+$/.test(String(body.id))) return Response.json({ error: 'Cadastro inválido.' }, { status: 400 });
   const values = { titulo, url, categoria, imagem_url };
   const query = editing ? auth.supabase.from('atalhos_links').update(values).eq('id', body.id) : auth.supabase.from('atalhos_links').insert(values);
