@@ -9,12 +9,14 @@ import AppInstallPopup from './app-install-popup';
 import DepartmentIcon from './department-icon';
 import WhatsAppIcon from './whatsapp-icon';
 import PixSupport from './pix-support';
+import usePortalAnalytics from './use-portal-analytics';
 import { compareLinks, defaultCategoryOrder, formatPhone, safeUrl, whatsappPhoneUrl, type Atalho } from '@/lib/atalhos';
 
 const whatsapp = `https://wa.me/5565993059729?text=${encodeURIComponent('Olá, tenho interesse em anunciar minha marca no portal Atalhos Grátis!')}`;
 const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
 
 export default function Portal({ links, usingBackup, categoryOrder = defaultCategoryOrder }: { links: Atalho[]; usingBackup: boolean; categoryOrder?: string[] }) {
+  const analytics = usePortalAnalytics();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('Todas');
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
@@ -30,7 +32,7 @@ export default function Portal({ links, usingBackup, categoryOrder = defaultCate
   const isExpanded = (item: string) => expandedCategories[item] ?? (Boolean(search.trim()) || category !== 'Todas');
 
   return (
-    <div className="portal-shell">
+    <div className="portal-shell" {...analytics}>
       <AppInstallPopup />
       <a className="contact-whatsapp" href={`https://wa.me/5565993059729?text=${encodeURIComponent('Olá! Gostaria de falar sobre o portal Atalhos Grátis.') }`} target="_blank" rel="noopener noreferrer" aria-label="Fale conosco pelo WhatsApp" title="Fale conosco"><WhatsAppIcon /><span>Fale conosco</span></a>
       <a href="#atalhos" className="skip-link">Ir para os atalhos</a>
@@ -57,14 +59,14 @@ export default function Portal({ links, usingBackup, categoryOrder = defaultCate
                     const href = safeUrl(link.url, true);
                     const phone = href?.startsWith('tel:');
                     const chat = whatsappPhoneUrl(link.url, link.telefone_pendente);
-                    return <div key={link.id} className={`shortcut-row ${chat ? 'has-whatsapp' : ''}`}><a href={href} target={phone ? undefined : '_blank'} rel={phone ? undefined : 'noopener noreferrer'} className="shortcut" aria-label={`${link.titulo} — ${phone ? 'ligar para ' + formatPhone(link.url) + (link.grupo ? ' · ' + link.grupo : '') : 'abrir em nova aba'}`}>{phone && !link.imagem_url ? <DepartmentIcon title={link.titulo} /> : <PortalImage key={link.imagem_url} src={link.imagem_url} title={link.titulo} />}<span className="shortcut-text"><strong>{link.titulo}</strong><span>{phone ? formatPhone(link.url) + ' · Toque para ligar' : 'Abrir serviço'}</span>{link.grupo && <span className="phone-unit">{link.grupo}</span>}{link.telefone_pendente && <span className="phone-pending">Conferir número</span>}</span>{phone ? <Phone size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}</a>{chat && <a href={chat} target="_blank" rel="noopener noreferrer" className="phone-whatsapp" aria-label={`WhatsApp de ${link.titulo} · ${formatPhone(link.url)}${link.grupo ? ' · ' + link.grupo : ''}`} title="Conversar no WhatsApp, se o número estiver cadastrado"><WhatsAppIcon /></a>}</div>;
+                    return <div key={link.id} className={`shortcut-row ${chat ? 'has-whatsapp' : ''}`}><a href={href} data-link-id={link.id} data-analytics-action="site" target={phone ? undefined : '_blank'} rel={phone ? undefined : 'noopener noreferrer'} className="shortcut" aria-label={`${link.titulo} — ${phone ? 'ligar para ' + formatPhone(link.url) + (link.grupo ? ' · ' + link.grupo : '') : 'abrir em nova aba'}`}>{phone && !link.imagem_url ? <DepartmentIcon title={link.titulo} /> : <PortalImage key={link.imagem_url} src={link.imagem_url} title={link.titulo} />}<span className="shortcut-text"><strong>{link.titulo}</strong><span>{phone ? formatPhone(link.url) + ' · Toque para ligar' : 'Abrir serviço'}</span>{link.grupo && <span className="phone-unit">{link.grupo}</span>}{link.telefone_pendente && <span className="phone-pending">Conferir número</span>}</span>{phone ? <Phone size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}</a>{chat && <a href={chat} data-link-id={link.id} data-analytics-action="whatsapp" target="_blank" rel="noopener noreferrer" className="phone-whatsapp" aria-label={`WhatsApp de ${link.titulo} · ${formatPhone(link.url)}${link.grupo ? ' · ' + link.grupo : ''}`} title="Conversar no WhatsApp, se o número estiver cadastrado"><WhatsAppIcon /></a>}</div>;
                   })}</CategoryContent></section>;
                 })}
               </div>
               {!filtered.length && <div className="empty-state"><Search size={30} aria-hidden="true" /><h3>Nenhum atalho encontrado</h3><p>Tente outro nome ou selecione uma categoria diferente.</p><button onClick={clear}>Mostrar todos os atalhos</button></div>}
               <p className="directory-note">Os atalhos levam aos sites dos serviços. Alguns sistemas podem solicitar login ou acesso autorizado.</p>
             </section>
-            <aside className="partners" aria-labelledby="partners-title"><h2 id="partners-title">Parceiros</h2>{partners.map((partner) => <a key={partner.id} href={safeUrl(partner.url)} target="_blank" rel="noopener noreferrer sponsored" className="partner-card"><PortalImage key={partner.imagem_url} src={partner.imagem_url} title={partner.titulo} banner /><div className="partner-caption"><strong>{partner.titulo}</strong><span>Conhecer <ArrowUpRight size={15} aria-hidden="true" /></span></div></a>)}<a href={whatsapp} target="_blank" rel="noopener noreferrer" className="advertise-card"><MessageCircle size={27} aria-hidden="true" /><strong>Sua marca por aqui</strong><p>Divulgue seu negócio para quem usa o portal todos os dias.</p><span>Fale pelo WhatsApp <ArrowRight size={16} aria-hidden="true" /></span></a></aside>
+            <aside className="partners" aria-labelledby="partners-title"><h2 id="partners-title">Parceiros</h2>{partners.map((partner) => <a key={partner.id} href={safeUrl(partner.url)} data-link-id={partner.id} data-analytics-action="site" target="_blank" rel="noopener noreferrer sponsored" className="partner-card"><PortalImage key={partner.imagem_url} src={partner.imagem_url} title={partner.titulo} banner /><div className="partner-caption"><strong>{partner.titulo}</strong><span>Conhecer <ArrowUpRight size={15} aria-hidden="true" /></span></div></a>)}<a href={whatsapp} target="_blank" rel="noopener noreferrer" className="advertise-card"><MessageCircle size={27} aria-hidden="true" /><strong>Sua marca por aqui</strong><p>Divulgue seu negócio para quem usa o portal todos os dias.</p><span>Fale pelo WhatsApp <ArrowRight size={16} aria-hidden="true" /></span></a></aside>
           </div>
         </main>
         <footer className="portal-footer"><div><strong>Atalhos<span className="brand-highlight">Grátis</span></strong><p>© {new Date().getFullYear()} · Facilidade para a sua rotina.</p><p>Desenvolvido por Ezequiel Castro — Anal. e Desenvolvedor de Sistemas</p></div><Link href="/admin">Painel administrador <ArrowUpRight size={14} aria-hidden="true" /></Link></footer>
