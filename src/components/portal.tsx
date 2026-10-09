@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Search, ShieldCheck, MessageCircle, Phone, ArrowRight, X, ChevronDown } from 'lucide-react';
 import PortalImage from './portal-image';
 import CategoryContent from './category-content';
+import AppInstallPopup from './app-install-popup';
 import { safeUrl, type Atalho } from '@/lib/atalhos';
 
 const whatsapp = `https://wa.me/5565993059729?text=${encodeURIComponent('Olá, tenho interesse em anunciar minha marca no portal Atalhos Grátis!')}`;
@@ -27,6 +28,7 @@ export default function Portal({ links, usingBackup }: { links: Atalho[]; usingB
 
   return (
     <div className="portal-shell">
+      <AppInstallPopup />
       <a href="#atalhos" className="skip-link">Ir para os atalhos</a>
       <div className="portal-container">
         <nav className="portal-nav" aria-label="Navegação principal">

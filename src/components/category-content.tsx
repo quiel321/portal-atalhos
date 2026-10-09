@@ -17,7 +17,7 @@ export default function CategoryContent({ id, expanded, children }: { id: string
   }, []);
 
   return (
-    <div id={id} className="category-content" data-expanded={expanded} style={{ height: expanded ? height ?? 'auto' : 48 }} inert={!expanded} aria-hidden={!expanded}>
+    <div id={id} className="category-content" data-expanded={expanded} style={{ height: expanded ? height ?? 'auto' : 36 }} inert={!expanded} aria-hidden={!expanded}>
       <div ref={listRef} className="shortcut-list">{children}</div>
     </div>
   );
