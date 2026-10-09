@@ -1,0 +1,93 @@
+[
+  {
+    "id": 22,
+    "titulo": "Boletim de Ocorrência",
+    "url": "https://portal2.sesp.mt.gov.br/auth/realms/SESP/protocol/openid-connect/auth?client_id=sso-app&redirect_uri=https%3A%2F%2Fportal2.sesp.mt.gov.br%2Fsso-app%2Fhome&state=68f5618c-8cbc-4fd3-86c7-36768bfa3e03&response_mode=fragment&response_type=code&scope=openid&nonce=217e4685-984a-4b74-9a2d-a3785eb2a69f",
+    "categoria": "Sistemas e Consultas",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/boletimdeocorrencia.jpg"
+  },
+  {
+    "id": 25,
+    "titulo": "CIOSP",
+    "url": "https://portal.sesp.mt.gov.br/ciosp-web/servlet/sesp.ciosp.autenticacao.hlogin",
+    "categoria": "Sistemas Policiais",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/ciosp.jpg"
+  },
+  {
+    "id": 27,
+    "titulo": "Consulta Policial - PMMT",
+    "url": "https://consultapolicial.pm.mt.gov.br/app_Login/",
+    "categoria": "Sistemas Policiais",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/consultapolicial.jpg"
+  },
+  {
+    "id": 34,
+    "titulo": "iTatame - Sistemas de Campeonatos de lutas",
+    "url": "https://www.itatame.com.br/",
+    "categoria": "Propaganda",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/1780635228737-foto.webp"
+  },
+  {
+    "id": 23,
+    "titulo": "Mandado de Prisão (BNMP)",
+    "url": "https://portalbnmp.cnj.jus.br/#/captcha/",
+    "categoria": "Sistemas e Consultas",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/mandadodeprisao.jpg"
+  },
+  {
+    "id": 1,
+    "titulo": "Polícia Militar (190)",
+    "url": "tel:190",
+    "categoria": "Emergência",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/policiamilitar190.jpg"
+  },
+  {
+    "id": 31,
+    "titulo": "Portal do Servidor",
+    "url": "https://servicos.seplag.mt.gov.br/portalservidor/",
+    "categoria": "Administrativo",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/portaldoservidor.jpg"
+  },
+  {
+    "id": 35,
+    "titulo": "PORTAL POLICIAL",
+    "url": "https://sistemas.pm.mt.gov.br/portalPolicial/policialLogin/",
+    "categoria": "Sistemas Policiais",
+    "imagem_url": ""
+  },
+  {
+    "id": 26,
+    "titulo": "SEOP PM",
+    "url": "https://seop.pm.mt.gov.br/app_Login/",
+    "categoria": "Sistemas Policiais",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/seoppm.jpg"
+  },
+  {
+    "id": 28,
+    "titulo": "SGPM",
+    "url": "https://sgpm.pm.mt.gov.br/sgpm_login/",
+    "categoria": "Sistemas Policiais",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/sgpm.jpg"
+  },
+  {
+    "id": 30,
+    "titulo": "SIGADOC",
+    "url": "https://www.sigadoc.mt.gov.br/siga/public/app/login?cont=https%3A%2F%2Fwww.sigadoc.mt.gov.br%2Fsiga%2Fapp%2Fprincipal",
+    "categoria": "Administrativo",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/sigadoc.jpg"
+  },
+  {
+    "id": 29,
+    "titulo": "Sinesp",
+    "url": "https://seguranca.sinesp.gov.br/sinesp-seguranca/login.jsf?goto=EAD",
+    "categoria": "Sistemas Policiais",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/sinesp.jpg"
+  },
+  {
+    "id": 24,
+    "titulo": "Vigia Mais MT",
+    "url": "https://vigiamaismt.com.br/",
+    "categoria": "Sistemas e Consultas",
+    "imagem_url": "https://ansxynurwuxyvbxntgzb.supabase.co/storage/v1/object/public/logos-portalatalhos/vigiamaismt.jpg"
+  }
+]

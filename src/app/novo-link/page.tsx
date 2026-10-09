@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import imageCompression from "browser-image-compression";
@@ -18,7 +18,7 @@ export default function NovoLink() {
   const [mensagem, setMensagem] = useState("");
   const [salvando, setSalvando] = useState(false);
 
-  const salvarLink = async (e: any) => {
+  const salvarLink = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setMensagem("Processando e salvando...");
     setSalvando(true);
@@ -39,7 +39,7 @@ export default function NovoLink() {
         
         const { error: uploadError } = await supabase.storage
           .from("logos-portalatalhos")
-          .upload(nomeArquivo, arquivoComprimido);
+          .upload(nomeArquivo, arquivoComprimido, { contentType: "image/webp", cacheControl: "3600" });
 
         if (uploadError) throw uploadError;
 
@@ -48,8 +48,8 @@ export default function NovoLink() {
           .getPublicUrl(nomeArquivo);
 
         imagemUrlFinal = publicUrlData.publicUrl;
-      } catch (error: any) {
-        setMensagem("Erro na imagem: " + error.message);
+      } catch (error: unknown) {
+        setMensagem("Erro na imagem: " + (error instanceof Error ? error.message : "Não foi possível enviar o arquivo."));
         setSalvando(false);
         return;
       }
@@ -83,13 +83,13 @@ export default function NovoLink() {
       <div className="max-w-md w-full bg-[#1e293b] border border-slate-700/50 p-6 md:p-8 rounded-3xl shadow-xl">
         
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white">Novo Lançamento</h1>
+          <h1 className="text-2xl font-bold text-white">Cadastrar atalho ou anúncio</h1>
           <Link href="/" className="text-blue-500 hover:text-blue-400 text-sm font-medium">
             ← Voltar ao Portal
           </Link>
         </div>
 
-        <form onSubmit={salvarLink} className="flex flex-col gap-4">
+        <p className="text-sm text-slate-400 mb-6 leading-relaxed">Preencha o nome, o endereço completo do site e a categoria. Para anúncios, marque a opção abaixo e envie a imagem do banner.</p><form onSubmit={salvarLink} className="flex flex-col gap-4">
           
           {/* MÁGICA: A CAIXINHA DE SELEÇÃO */}
           <div className="flex items-center gap-3 bg-blue-500/10 p-3.5 rounded-xl border border-blue-500/30 hover:border-blue-500/60 transition-all">
@@ -101,7 +101,7 @@ export default function NovoLink() {
               className="w-5 h-5 accent-blue-600 rounded cursor-pointer"
             />
             <label htmlFor="isPropaganda" className="text-sm font-semibold text-blue-400 cursor-pointer select-none">
-              Este lançamento é um Banner de Propaganda?
+              Cadastrar como anúncio de parceiro
             </label>
           </div>
 
