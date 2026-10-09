@@ -56,7 +56,7 @@ button { cursor: pointer; }
 .partner-card { display: block; background: #142137; border: 1px solid #2d405a; overflow: hidden; border-radius: 14px; margin-bottom: 18px; text-decoration: none; }
 .partner-card:hover { border-color: #5c8fbf; }
 .partner-image { position: relative; height: 105px; background: #18273e; }
-.partner-image img { padding: 0; object-fit: cover; object-position: center; }
+.partner-image img { padding: 0; object-fit: contain; object-position: center; }
 .partner-fallback { height: 100%; display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; color: #9dc8ff; }
 .partner-fallback span { font-size: 26px; font-weight: 700; letter-spacing: -1px; }
 .partner-caption { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
@@ -135,4 +135,4 @@ button { cursor: pointer; }
 
 .user-entry { flex-wrap: wrap; }.user-entry > div:first-child { min-width: 0; flex: 1 1 200px; }.user-entry strong { overflow-wrap: anywhere; }.user-entry button { width: auto; height: auto; padding: 9px 12px; }.user-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
-.admin-partner-preview { height: auto; aspect-ratio: 240 / 105; overflow: hidden; }.admin-partner-preview img { padding: 0; object-fit: cover; }
+.admin-partner-preview { height: auto; aspect-ratio: 240 / 105; overflow: hidden; }.admin-partner-preview img { padding: 0; object-fit: contain; }
