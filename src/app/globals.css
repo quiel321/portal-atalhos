@@ -192,7 +192,7 @@ button { cursor: pointer; }
 @media (max-width:540px) {
   .pix-support { padding:10px; gap:8px; }
   .pix-support h2 { font-size:12px; line-height:1.4; }
-  .pix-support p { font-size:10px; }
+  .pix-support p { font-size:11px; }
   .pix-key-row { gap:5px; }
   .pix-qr-button, .pix-qr-button img { width:68px; }
   .pix-qr-button img { height:68px; }
@@ -210,7 +210,7 @@ button { cursor: pointer; }
   .pix-support { margin:10px 0; padding:8px 10px; }
   .pix-support h2 { margin-bottom:3px; }
   .pix-support p { margin-bottom:4px; }
-  .pix-description-long, .pix-copy-label { display:none; }
+  .pix-copy-label { display:none; }
   .pix-key-row button { padding:5px; min-width:28px; min-height:28px; }
   .pix-qr-button, .pix-qr-button img { width:48px; }
   .pix-qr-button img { height:48px; }

@@ -28,7 +28,7 @@ export default function PixSupport() {
     <section className="pix-support" aria-labelledby="pix-support-title">
       <div className="pix-support-copy">
         <h2 id="pix-support-title"><Heart size={15} aria-hidden="true" />Apoie o Atalhos Grátis</h2>
-        <p><span className="pix-description-long">Seu Pix ajuda a manter o portal no ar, </span>sem anúncios que atrapalham.</p>
+        <p><strong>Faça um Pix de qualquer valor</strong> e ajude a manter o portal no ar, sempre sem anúncios que atrapalham.</p>
         <div className="pix-key-row"><label htmlFor="pix-key">Pix</label><input id="pix-key" ref={keyInput} value={pix.key} readOnly aria-label="Chave Pix CNPJ" /><button type="button" aria-label="Copiar chave Pix" onClick={() => copy(pix.key, 'Chave Pix')}>{feedback === 'Chave Pix copiada!' ? <Check size={13} aria-hidden="true" /> : <Copy size={13} aria-hidden="true" />}<span className="pix-copy-label">Copiar chave</span></button></div>
         <span className="pix-feedback" role="status">{feedback}</span>
       </div>
