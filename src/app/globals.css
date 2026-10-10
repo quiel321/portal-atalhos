@@ -295,3 +295,65 @@ button { cursor: pointer; }
 .traffic-data .analytics-table-wrap { max-height:300px; margin-top:8px; }
 .category-items { margin:14px 0; background:#101b2c; }
 @media(max-width:760px) { .admin-collapse > summary { padding:15px 16px; font-size:14px; } .admin-collapse-content { padding:0 16px 16px; } .traffic-chart > .admin-collapse-content, .analytics-block > .admin-collapse-content { padding:0 10px 12px; } .traffic-selection { gap:8px; padding:9px; font-size:10px; } .traffic-legend { gap:5px; } .traffic-legend button { font-size:10px; padding:6px 7px; } }
+/* Compact admin controls preserve comfortable touch targets. */
+.admin-shell .admin-header { padding:12px 0; margin-bottom:14px; }
+.admin-shell .admin-title h1 { font-size:22px; margin:0 0 3px; }
+.admin-shell .admin-title p { font-size:11px; }
+.admin-shell .admin-primary, .admin-shell .admin-secondary, .admin-shell .admin-danger { padding:8px 10px; font-size:11px; min-height:34px; }
+.admin-shell .main-admin-tabs { flex-wrap:nowrap; overflow-x:auto; gap:6px; margin:12px 0; padding:2px 0 5px; scrollbar-width:thin; }
+.main-admin-tabs button { flex-shrink:0; padding:8px 10px; font-size:11px; min-height:34px; }
+.admin-shell .admin-columns { gap:14px; }
+.admin-shell .admin-collapse { padding:0; border-radius:11px; }
+.admin-shell .admin-collapse > summary { padding:12px 14px; font-size:13px; }
+.admin-shell .admin-collapse-content { padding:0 14px 14px; }
+.admin-shell .admin-form { gap:7px; margin-top:12px; }
+.admin-shell .admin-form label { font-size:11px; margin-top:3px; }
+.admin-shell .admin-form input, .admin-shell .admin-form select, .admin-shell .category-manager input, .admin-shell .category-manager select { padding:8px 10px; min-height:36px; font-size:12px; }
+.admin-shell .admin-entry { padding:9px 10px; gap:8px; }
+.admin-shell .admin-list { gap:7px; margin-top:10px; }
+.admin-shell .category-create { margin:12px 0; }
+.admin-shell .category-management-grid { grid-template-columns:210px minmax(0,1fr); gap:14px; }
+.admin-shell .category-management-list { max-height:290px; overflow:auto; gap:5px; }
+.admin-shell .category-management-list button { padding:9px; font-size:11px; }
+.admin-category-select { display:none; }
+.admin-shell .analytics-toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+.admin-shell .analytics-period { gap:6px; margin:0; font-size:11px; }
+.admin-shell .analytics-period input { background:#0e192a; border:1px solid #3b4e68; border-radius:7px; padding:7px; font-size:11px; color:#e6edf8; min-height:34px; }
+.admin-shell .analytics-actions { gap:6px; }
+.admin-shell .analytics-actions .admin-primary { margin-top:0; }
+.admin-shell .analytics-live { font-size:10px; margin:10px 0; }
+.admin-shell .analytics-metrics { gap:8px; margin:4px 0; }
+.admin-shell .analytics-metrics article { padding:10px; border-radius:8px; }
+.admin-shell .analytics-metrics span { font-size:10px; }
+.admin-shell .analytics-metrics strong { font-size:24px; margin-top:3px; }
+.admin-shell .analytics-block, .admin-shell .traffic-chart { margin-top:8px; }
+.admin-shell .analytics-table-wrap th, .admin-shell .analytics-table-wrap td { padding:8px; }
+.chart-dialog { position:fixed; inset:0; margin:auto; width:min(500px,calc(100vw - 24px)); max-height:calc(100dvh - 24px); overflow:auto; padding:20px; border:1px solid #49607d; border-radius:14px; background:#141f32; color:#e6edf8; box-shadow:0 15px 70px #0006; }
+.chart-dialog::backdrop { background:#000a; }
+.admin-shell .chart-dialog h3 { margin:4px 28px 10px 0; font-size:17px; }
+.chart-dialog p { font-size:12px; color:#a6b8ce; line-height:1.6; }
+.chart-dialog-close { position:absolute; right:8px; top:8px; background:transparent; color:#c5ddf8; border:0; padding:8px; border-radius:6px; }
+.chart-detail-metrics { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:12px 0; }
+.chart-detail-metrics button { display:flex; flex-direction:column; text-align:left; gap:5px; padding:10px; background:#0e192a; color:#e6edf8; border:1px solid #364b66; border-radius:8px; }
+.chart-detail-metrics button[aria-pressed="true"] { border-color:#70b5ff; background:#1b304d; }
+.chart-detail-metrics span { font-size:11px; }
+.chart-detail-metrics strong { font-size:25px; }
+.chart-detail-metrics small { color:#a6b8ce; font-size:10px; line-height:1.5; }
+.chart-partial-note { font-size:10px !important; }
+@media(max-width:760px) {
+ .admin-shell { padding:0 12px 24px; }
+ .admin-shell .admin-header { padding:10px 0; margin-bottom:12px; }
+ .admin-shell .admin-title h1 { font-size:19px; }
+ .admin-shell .admin-collapse > summary { padding:11px 12px; }
+ .admin-shell .admin-collapse-content { padding:0 12px 12px; }
+ .admin-shell .category-management-grid { grid-template-columns:1fr; gap:10px; }
+ .admin-category-select { display:flex; flex-direction:column; gap:5px; font-size:11px; color:#bed0e7; }
+ .admin-shell .category-management-list { display:none; }
+ .admin-shell .analytics-block > .admin-collapse-content, .admin-shell .traffic-chart > .admin-collapse-content { padding:0 9px 10px; }
+ .admin-shell .analytics-toolbar { gap:6px; }
+ .admin-shell .analytics-actions button { padding:7px 8px; }
+ .chart-dialog { padding:16px; }
+}
+.admin-shell .admin-tabs { gap:6px; margin:12px 0; }
+.admin-shell .admin-tabs button { padding:8px 10px; font-size:11px; min-height:34px; }
+.admin-shell .traffic-note, .admin-shell .traffic-hint { font-size:11px; margin:0 0 8px; }
